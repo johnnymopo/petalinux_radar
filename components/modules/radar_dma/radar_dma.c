@@ -106,15 +106,7 @@ static ssize_t radar_dma_read(struct file* F, char *buf, size_t count, loff_t *f
 	printk(KERN_ERR "%s: memory is not mapped\n", DRIVER_NAME);
 	return -1;
     }
-    /*
-    if (!low_high_pos) {
-	buffer = radar_handle;
-	low_high_pos = 1;
-    } else {
-	buffer = radar_handle + (dma_addr_t) radar_dma_size;
-	low_high_pos = 0;
-    }
-    */
+
     buffer = radar_handle;
 
     chan_desc = dmaengine_prep_slave_single(dma_dev->chan, buffer, (size_t)radar_dma_size, 
@@ -148,9 +140,6 @@ static ssize_t radar_dma_read(struct file* F, char *buf, size_t count, loff_t *f
 	       status == DMA_ERROR ? "error" : "in progress");
 	return -1;
     }
-
-
-    //"need to return high or low buffer space to read"
 
     return 0;
 }
